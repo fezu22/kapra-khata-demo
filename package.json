@@ -1,1 +1,1 @@
-{"name":"kapra-khata","version":"1.0.0","private":true,"scripts":{"dev":"node preview.mjs"}}
+{"name":"kapra-khata","version":"1.0.0","private":true,"scripts":{"dev":"node preview.mjs","test":"node check-flows.cjs && node check-latest.cjs && node check-recovery.cjs && node check-workflow.cjs && node check-ui.cjs"}}

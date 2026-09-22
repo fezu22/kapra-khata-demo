@@ -1,5 +1,5 @@
 /* Touch-friendly layout; desktop table semantics are retained. */
-html{scroll-padding-bottom:24px}body{overflow-wrap:break-word}.layout>* ,.split>* ,.grid>*{min-width:0}.tablewrap{overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}.modal{overscroll-behavior:contain}.btn,.iconbtn,.textbtn,.qty button{touch-action:manipulation}
+html{scroll-padding-bottom:24px}body{overflow-wrap:break-word;overflow-x:hidden}.layout>* ,.split>* ,.grid>*{min-width:0}.tablewrap{overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}.modal{overscroll-behavior:contain}.btn,.iconbtn,.textbtn,.qty button{touch-action:manipulation}
 @media screen and (max-width:760px){
   main{padding:22px 14px;padding-bottom:max(24px,env(safe-area-inset-bottom))}header{padding:0 14px;gap:8px}.brand{font-size:18px}.header-right{gap:0}.header-right .avatar{width:32px;height:32px}.logo{padding:7px 10px;font-size:21px}.pagehead{flex-wrap:wrap}.pagehead>.pill{font-size:11px}.pagehead>.btn{width:100%}
   button.btn,button.iconbtn,button.textbtn,.method button{min-height:44px}.small{padding:10px 12px}.qty button{min-width:40px;min-height:44px}.qty input{font-size:16px;width:44px}input,select,textarea{font-size:16px;min-height:44px}.rate{width:100px;border-color:var(--line)}
