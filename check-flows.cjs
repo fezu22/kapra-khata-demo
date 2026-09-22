@@ -1,0 +1,14 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const nodes=new Map();const node=s=>{if(!nodes.has(s))nodes.set(s,{innerHTML:'',textContent:'',children:[],querySelectorAll(){return []},classList:{add(){},remove(){}},focus(){},value:''});return nodes.get(s)};
+const sandbox={console,structuredClone,Date,JSON,Number,String,Math,Error,setTimeout(){},clearTimeout(){},localStorage:{getItem(){return null},setItem(){}},document:{querySelector:node,querySelectorAll(){return []},addEventListener(){},activeElement:null},window:{scrollTo(){}},FormData:function(){return {get:k=>sandbox.form[k]}}};
+vm.createContext(sandbox);vm.runInContext(fs.readFileSync('dist/app.js','utf8'),sandbox);
+const run=code=>vm.runInContext(code,sandbox);const eq=(code,want)=>assert.equal(run(code),want,code);
+eq("customerBalance('c1')",25000);eq("supplierBalance('s1')",68000);
+run("addItem('p1');setQty(0,2);paid=total();saveSale()");eq("product('p1').stock",106);eq('db.sales[0].total',4000);eq('cart.length',0);
+run("returnBill='INV-1052'");sandbox.form={q0:'1',q1:'0',c0:'defective',reason:'Fabric defect',settlement:'credit'};run('saveReturn()');eq('db.returns[0].credit',1944.44);assert.ok(Math.abs(run("customerBalance('c1')")-23055.56)<0.001);eq("supplierBalance('s1')",68000);eq("product('p1').defect",1);
+node('#claim-action').value='credit';run('resolveClaim(db.claims[0].id)');eq("supplierBalance('s1')",66600);
+run("resetCart();addItem('p3');customer='c1'");node('#hold-type').value='Reserved';run('saveOrder()');eq("product('p3').reserved",1);run('resumeOrder(db.orders[0].id);paid=total();saveSale()');eq("product('p3').reserved",0);eq("product('p3').stock",47);
+run("addItem('p3')");node('#hold-type').value='Held';run('saveOrder();resumeOrder(db.orders[0].id);paid=total();saveSale()');eq("product('p3').reserved",0);eq("product('p3').stock",46);
+run("resetCart();addItem('p1');setQty(0,99999)");eq('cart[0].qty',1);
+for(const r of ['sale','sales','stock','customers','suppliers','purchases','returns','defects','orders','expenses','closing','reports','settings'])assert.ok(run(`route='${r}';detail=null;returnBill=null;view()`).length>100,r);
+console.log('PASS: sale → stock, proportional returns → khata, pending/approved claims, reserved/held orders, overstock guard, all 13 screens render.');
