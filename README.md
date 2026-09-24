@@ -20,4 +20,4 @@ Open the hosted site, or run `npm run dev` for local development. The default pa
 
 This is a working owner-workspace prototype with sample data saved in localStorage on the current browser. It is not a production ERP or a secure shared database. Staff authentication and enforced permissions, multi-device synchronization, automated backups, per-piece serialization, tax configuration and physical printer/scanner verification require production implementation. Purchase entry currently receives one batch/colour/size line per form. Management profit figures are estimates.
 
-Run `npm test` to verify sale saving, recovery, supplier receiving, split customer/supplier cheques, idempotent cheque clearing, code-based returns, stock updates, required routes and mobile assets. Start the project with `npm run dev` and open `http://localhost:4173/`.
+Run `node check-flows.cjs` to verify core accounting and stock transitions. Browser UI checks covered sale saving, original-invoice returns and proportional credit. WebMCP registration is feature-detected; the preview browser did not support its runtime API, so WebMCP execution was not verified.
